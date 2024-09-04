@@ -1,3 +1,5 @@
+import json
+
 from django.shortcuts import render, get_object_or_404
 
 from .models import UsersGame
@@ -15,7 +17,8 @@ def index(request):
 
 def game(request, game_id):
     user_game = get_object_or_404(UsersGame, pk=game_id)
-    return render(request, "games/game.html", {"game": user_game})
+    return render(request, "games/game.html", {"game": user_game, "sets": user_game.score['sets']})
+
 
 def score(request, game_id):
     return HttpResponse("You're looking at score of game %s." % game_id)

@@ -1,5 +1,44 @@
-<h1>{{ game.id }}</h1>
-user1: {{ game.user1.name }}<br>
-user2: {{ game.user2.name }}<br>
-winner: {{ game.winner.name }}<br>
-score: {{ game.score }}
+
+<form action="{% url 'games:game' game.id %}" method="post">
+{% csrf_token %}
+<fieldset>
+    <label for="user1">User 1:</label>
+    <input type="text" id="user1" name="user1" value="{{ game.user1.name }}"><br><br>
+
+    <label for="user2">User 2:</label>
+    <input type="text" id="user2" name="user2" value="{{ game.user2.name }}"><br><br>
+
+    <label for="winner">winner 3:</label>
+    <input type="text" id="winner" name="winner" value="{{ game.winner.name }}"><br><br>
+
+    <h2>Scores</h2>
+    <div id="sets-container">
+        {% for set in sets %}
+            <label for="set{{ forloop.counter }}">Set {{ forloop.counter }}:</label>
+            <input type="number" id="set{{ forloop.counter }}" name="set{{ forloop.counter }}" value="{{ set }}"><br><br>
+        {% endfor %}
+    </div>
+    <button type="button" onclick="addSet()">Add Set</button><br><br>
+    <button type="button" onclick="removeSet()">Remove Set</button><br><br>
+
+    <button type="submit">Submit</button>
+</fieldset>
+</form>
+<script>
+    function addSet() {
+        const setsContainer = document.getElementById('sets-container');
+        const setCount = setsContainer.children.length + 1;
+        const newSet = document.createElement('div');
+        newSet.innerHTML = `
+            <label for="set${setCount}">Set ${setCount}:</label>
+            <input type="number" id="set${setCount}" name="set${setCount}" required><br><br>
+        `;
+        setsContainer.appendChild(newSet);
+    }
+    function removeSet() {
+            const setsContainer = document.getElementById('sets-container');
+            if (setsContainer.children.length > 0) {
+                setsContainer.removeChild(setsContainer.lastChild);
+            }
+        }
+</script>

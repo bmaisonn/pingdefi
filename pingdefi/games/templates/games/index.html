@@ -1,7 +1,7 @@
 {% if games %}
     <ul>
     {% for game in games %}
-        <li><a href="/games/{{ game.id }}">Details of game with {{ game.user1.name }} and {{ game.user2.name }}</a></li>
+        <li><a href="{% url 'games:game' game.id %}">Details of game with {{ game.user1.name }} and {{ game.user2.name }}</a></li>
     {% endfor %}
     </ul>
 {% else %}
